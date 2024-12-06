@@ -23,6 +23,8 @@ export class AppController {
       // WSO2
       const jwtoken = await this.authService.login(loginDto);
       console.log('Auth_token: ', jwtoken);
+      const userInfo = await this.authService.getUserInfo(jwtoken.jwt);
+      console.log('User_info: ', userInfo);
 
       // Mender
       const token = await this.menderService.authenticateUser();
