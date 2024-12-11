@@ -3,7 +3,7 @@ import { AuthService } from './services/auth.service';
 import { MenderService } from './services/mender.service';
 import { NginxService } from './services/nginx.service';
 import * as requestIp from 'request-ip';
-import { LogService } from './services/logs.service';
+// import { LogService } from './services/logs.service';
 
 @Controller()
 export class AppController {
@@ -11,7 +11,7 @@ export class AppController {
     private readonly menderService: MenderService,
     private readonly nginxService: NginxService,
     private readonly authService: AuthService,
-    private readonly logsService: LogService,
+    // private readonly logsService: LogService,
   ) {}
 
   @Post('authenticate')
@@ -19,12 +19,11 @@ export class AppController {
     @Req() req,
     @Body() loginDto: { user: string; password: string },
   ) {
+    console.log('LoginDto: ', loginDto)
     try {
       // WSO2
       const jwtoken = await this.authService.login(loginDto);
       console.log('Auth_token: ', jwtoken);
-      const userInfo = await this.authService.getUserInfo(jwtoken.jwt);
-      console.log('User_info: ', userInfo);
 
       // Mender
       const token = await this.menderService.authenticateUser();
@@ -53,12 +52,12 @@ export class AppController {
       console.log(`Client mender ${clientIp} authenticated with token`);
 
       // Guardar log en la base de datos
-      await this.logsService.createLog(
-        loginDto.user,
-        loginDto.password,
-        clientIp,
-        macAddress,
-      );
+      // await this.logsService.createLog(
+      //   loginDto.user,
+      //   loginDto.password,
+      //   clientIp,
+      //   macAddress,
+      // );
 
       return { jwtoken };
     } catch (error) {

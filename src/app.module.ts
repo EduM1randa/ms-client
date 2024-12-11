@@ -7,6 +7,9 @@ import { HttpModule } from '@nestjs/axios';
 import { NginxService } from './services/nginx.service';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './config/database.module';
+// import { LogService } from './services/logs.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Log } from './entities/log.entity';
 
 @Module({
   imports: [
@@ -16,13 +19,15 @@ import { DatabaseModule } from './config/database.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    DatabaseModule,
+    // DatabaseModule,
+    // TypeOrmModule.forFeature([Log]),
   ],
   controllers: [AppController],
   providers: [
     AuthService, 
     MenderService,
     NginxService,
+    // LogService,
   ],
 })
 export class AppModule {}

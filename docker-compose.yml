@@ -9,6 +9,9 @@ services:
       - '3000:3000'
     env_file:
       - .env
+    networks:
+      znet:
+        ipv4_address: 192.168.0.27
     depends_on:
       - postgres
 
@@ -20,3 +23,10 @@ services:
       POSTGRES_DB: zt-db
     ports:
       - '5432:5432'
+    networks:
+      znet:
+        ipv4_address: 192.168.0.28
+
+networks:
+  znet:
+    external: true
